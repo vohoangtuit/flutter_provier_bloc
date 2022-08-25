@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider/bloc/user_bloc.dart';
+import 'package:flutter_provider/providers/user_provider.dart';
 import 'package:flutter_provider/screens/base_screen.dart';
 import 'package:flutter_provider/screens/third_screen.dart';
 import 'package:provider/provider.dart';
@@ -12,11 +13,12 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _SecondScreenState extends BaseScreen<SecondScreen> {
+
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserBloc>(context);
-    if(userProvider.userId.isNotEmpty){
-      userId =userProvider.userId;
+    userProvider = Provider.of<UserProvider>(context);
+    if(userProvider.getUserId.isNotEmpty){
+      userId =userProvider.getUserId;
     }
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +27,11 @@ class _SecondScreenState extends BaseScreen<SecondScreen> {
       body: _viewDetail(),
     );
   }
-
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
   Widget _viewDetail() {
     return Column(
       children: [
@@ -55,4 +61,9 @@ class _SecondScreenState extends BaseScreen<SecondScreen> {
 
     );
   }
+  _getData()async{
+    log('_getData()');
+    userBloc.getNews();
+  }
+
 }

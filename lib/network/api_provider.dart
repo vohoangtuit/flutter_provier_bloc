@@ -14,6 +14,14 @@ abstract class ApiProvider {
   @GET('getnews') // todo old
   Future<ResponseModel> getNews(Options cacheOptions) ;
 
+  @GET('GetListContact')
+  Future<ResponseModel> getListContact();
+
+  @GET('loadDanhSachChiNhanh') // TODO OLD
+  Future<ResponseModel> getDanhSachChiNhanh(@Query('api_key') String api_key);
+
+  @GET('GetStaticPage') // ABOUT : GetStaticPage/{}
+  Future<ResponseModel> getStaticPage(@Query('pagecode') String pagecode);
 
 }
 

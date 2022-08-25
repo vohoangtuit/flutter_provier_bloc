@@ -25,10 +25,4 @@ class _ThirdScreenState extends BaseScreen<ThirdScreen> {
   _getData()async{
     await userBloc.getNews();
   }
-  // @override
-  // getData() async {
-  //   await userBloc.getNews();
-  //   return super.getData();
-  //
-  // }
 }
