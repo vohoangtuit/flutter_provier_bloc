@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_provider/bloc/base_bloc_new.dart';
 import 'package:flutter_provider/bloc/other_bloc.dart';
 import 'package:flutter_provider/bloc/user_bloc.dart';
 import 'package:flutter_provider/database/floor_init.dart';
@@ -29,33 +30,33 @@ void main() async{
 class MyApp extends StatefulWidget {
   final SharedPreferences sharedPre;
   final FloorDatabase floorDB;
-  //final  LoadingView loadingView;
-   const MyApp({Key? key, required this.sharedPre, required this.floorDB,}) : super(key: key);
+    MyApp({Key? key, required this.sharedPre, required this.floorDB,}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
+
+   static bool initProvider =false;
+   static setProvider(){
+     initProvider =true;
+   }
+  static bool get getProvider =>initProvider;
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> {//BaseScreen || State
    FirebaseService  firebaseService = FirebaseService.getInstance();
-  UserBloc? userBloc_;
-  OtherBloc? otherBloc_;
-
-
   _MyAppState();
 
   @override
   Widget build(BuildContext context) {
+   // MyApp.setProvider();// todo run set first run app to config provider
     return MultiProvider(
       providers: [
         Provider<AppProvider>(
             create: (_) => AppProvider(
                 firebaseService: firebaseService,
                 floorDatabase: widget.floorDB,
-                sharedPre: widget.sharedPre)),
+                sharedPreferences: widget.sharedPre)),
         ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
-
-
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -30,6 +30,7 @@ class _SecondScreenState extends BaseScreen<SecondScreen> {
   @override
   void initState() {
     super.initState();
+
     _getData();
   }
   Widget _viewDetail() {

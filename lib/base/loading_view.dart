@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 class LoadingView {
   OverlayEntry? _progressOverlayEntry;
-  //final BuildContext buildContext;
 
-  //LoadingView({required this.buildContext});
 void show(BuildContext context) {
     _progressOverlayEntry = _createdProgressEntry(context);
     Overlay.of(context)!.insert(_progressOverlayEntry!);

@@ -9,7 +9,6 @@ class UserProvider extends ChangeNotifier{
    _idUser =idUSer;
     notifyListeners();
   }
-
    setUpdate(bool isUpdate){
      update =isUpdate;
      notifyListeners();

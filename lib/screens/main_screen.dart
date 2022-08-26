@@ -28,8 +28,8 @@ class _MainScreenState extends BaseScreen<MainScreen> {
     // }
     // todo cach 3
     userProvider =Provider.of<UserProvider>(context);// todo
+    log('userProvider.getUserId ${userProvider.getUserId}');
     if(userProvider.getUserId.isNotEmpty){
-      //log('userProvider.getUserId ${userProvider.getUserId}');
       userId =userProvider.getUserId;
     }
     return Scaffold(

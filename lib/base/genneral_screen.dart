@@ -1,12 +1,11 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_provider/base/loading_view.dart';
 import 'package:flutter_provider/base/resume.dart';
-import 'package:flutter_provider/main.dart';
+import 'package:flutter_provider/screens/base_screen.dart';
 
 
-abstract class GeneralScreen<T extends StatefulWidget> extends State<T> with WidgetsBindingObserver{
+  abstract class GeneralScreen<T extends StatefulWidget> extends State<T> with WidgetsBindingObserver{
   String currentUrl = '';
   Resume resume =  Resume();
   bool _isPaused = false;
@@ -17,13 +16,11 @@ abstract class GeneralScreen<T extends StatefulWidget> extends State<T> with Wid
   void onPause() {}
   @override
   void initState() {
-
     super.initState();
     initAll();
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) => onReady());
   }
-
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -47,8 +44,6 @@ abstract class GeneralScreen<T extends StatefulWidget> extends State<T> with Wid
   void disposeAll(){
 
   }
-
-
 
   showMessage(String message) {
 
@@ -107,5 +102,6 @@ abstract class GeneralScreen<T extends StatefulWidget> extends State<T> with Wid
       Navigator.of(context).pop();
     }
   }
+
 
 }

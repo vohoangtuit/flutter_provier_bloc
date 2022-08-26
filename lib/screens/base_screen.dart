@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider/base/genneral_screen.dart';
 import 'package:flutter_provider/base/loading_view.dart';
+import 'package:flutter_provider/bloc/base_bloc_new.dart';
 import 'package:flutter_provider/bloc/other_bloc.dart';
 import 'package:flutter_provider/bloc/user_bloc.dart';
+import 'package:flutter_provider/main.dart';
 import 'package:flutter_provider/models/user_model.dart';
 import 'package:flutter_provider/providers/app_provider.dart';
 import 'package:flutter_provider/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 
-abstract class BaseScreen<T extends StatefulWidget> extends GeneralScreen<T> {
+ abstract class BaseScreen<T extends StatefulWidget> extends GeneralScreen<T>  {
   bool isOnline = true;
   bool? isLoading = false;
   bool firstLoad = true;
@@ -17,6 +19,7 @@ abstract class BaseScreen<T extends StatefulWidget> extends GeneralScreen<T> {
 
   String userId='';
   String acc='';
+  late BaseBlocNew baseBlocNew;
   late AppProvider appProvider;
   late UserProvider userProvider;
   late UserBloc userBloc;
@@ -30,11 +33,13 @@ abstract class BaseScreen<T extends StatefulWidget> extends GeneralScreen<T> {
     _initOther();
   }
   _initProviders()async{
-    appProvider = context.read<AppProvider>();
-   userProvider = context.read<UserProvider>();
 
-    userBloc = UserBloc(baseScreen: this, provider: appProvider);
-    otherBloc =OtherBloc(baseScreen: this, provider: appProvider);
+  //  if(MyApp.getProvider){// todo true : check lần đầu bị duplicate BaseScreen  MyApp
+      appProvider = context.read<AppProvider>();
+      userProvider = context.read<UserProvider>();
+      userBloc = UserBloc(userProvider:userProvider,screen: this,appProvider: appProvider);
+      otherBloc =OtherBloc(screen: this,appProvider: appProvider);
+   // }
   }
   _initOther(){
    loadingView =LoadingView();
@@ -74,7 +79,6 @@ abstract class BaseScreen<T extends StatefulWidget> extends GeneralScreen<T> {
 
   }
 
-
   Future<UserModel> getProfileFromFirebase(UserModel user,{required bool saveLocal} ) async {
     UserModel? userModel;
 
@@ -86,4 +90,9 @@ abstract class BaseScreen<T extends StatefulWidget> extends GeneralScreen<T> {
    // replaceScreen(const LoginScreen());
   }
 
+
+}
+
+abstract  class BaseInterface{
+  Widget front(BuildContext context);
 }

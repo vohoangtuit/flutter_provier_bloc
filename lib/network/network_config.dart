@@ -18,19 +18,19 @@ abstract class NetworkConfig {
   final String kTypeDefault = '2'; //1: android; 2: iOS
   String kDeviceCodeDefault = ''; //1: android; 2: iOS
   late ApiProvider restApi;
-  final SharedPreferences sharedPre;
+  final SharedPreferences sharedPreferences;
   Options cacheOptions = buildCacheOptions(const Duration(days: 3),
       maxStale: const Duration(days: 7), forceRefresh: true);
 
   String? token = '';
 
-  NetworkConfig.internal({required this.sharedPre}) {
-  // print('NetworkConfig');
+  NetworkConfig.internal({required this.sharedPreferences}) {
+   //print('NetworkConfig');
     DioCacheManager dioCacheManager = DioCacheManager(CacheConfig());
     Dio dio = Dio();
     dio.options.baseUrl = baseUrl;
     //   _dio!.options.receiveTimeout = 3000;
-    dio.interceptors.add(AppInterceptors(sharedPre: sharedPre));
+    dio.interceptors.add(AppInterceptors(sharedPreferences: sharedPreferences));
     dio.interceptors.add(dioCacheManager.interceptor);
     if (kDebugMode) {
       dio.interceptors
@@ -65,14 +65,14 @@ abstract class NetworkConfig {
 }
 
 class AppInterceptors extends InterceptorsWrapper {
-  final SharedPreferences sharedPre;
+  final SharedPreferences sharedPreferences;
 
-  AppInterceptors({required this.sharedPre});
+  AppInterceptors({required this.sharedPreferences});
   @override
   Future onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
 
-    String token =sharedPre.getString(SharedPre.sharedPreID)??"";
+    String token =sharedPreferences.getString(SharedPre.sharedPreID)??"";
     // print('token $token');
 
     Map<String, dynamic> requestHeaders = {
@@ -99,6 +99,6 @@ class AppInterceptors extends InterceptorsWrapper {
     super.onError(err, handler);
   }
   Future<String?> _getToken()async{
-    return  sharedPre.getString(SharedPre.sharedPreID)??"";
+    return  sharedPreferences.getString(SharedPre.sharedPreID)??"";
   }
 }
